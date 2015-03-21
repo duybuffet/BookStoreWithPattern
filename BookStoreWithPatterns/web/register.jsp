@@ -18,7 +18,7 @@
                     <div class="feat_prod_box_details">
                         <div class="contact_form">
                             <div class="form_subtitle">Tạo tài khoản mới</div>
-                            <form name="register" method="post" action="Register">          
+                            <form name="register" method="post" action="UserController?action=register">          
                                 <div class="form_row">
                                     <label class="form-group"><strong>Tài khoản: </strong></label>
                                     <input required type="text" class="form-control" pattern="[A-Za-z0-9]+" name="username" />

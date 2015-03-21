@@ -34,7 +34,7 @@
             <%
         }
         %>
-    <p><a href="<%=request.getContextPath()%>/Logout">Đăng xuất</a>
+    <p><a href="<%=request.getContextPath()%>/UserController?action=logout">Đăng xuất</a>
         
 </div>
 <%

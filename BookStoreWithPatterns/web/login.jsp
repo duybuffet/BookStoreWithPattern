@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <form method="post" action="Login">
+                            <form method="post" action="UserController?action=login">
                                 <div class="form-group">
                                     <label ><strong>Tài khoản: </strong></label>
                                     <input required type="text" class="form-control" name="username" />

@@ -9,9 +9,13 @@ import dao.book.BookDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +23,14 @@ import javax.servlet.http.HttpSession;
 import model.book.Book;
 import model.business.Cart;
 import model.business.ICart;
+import model.newbusiness.CartDecoratorConcreate;
 
 /**
  *
  * @author Duy Buffet
  */
-public class AddToCart extends HttpServlet {
+@WebServlet(name = "CartController", urlPatterns = "/CartController")
+public class CartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,25 +47,59 @@ public class AddToCart extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession(true);
+            String action = request.getParameter("action").trim();
             ICart cartObj = null;
-            int bookId = Integer.parseInt(request.getParameter("id"));
-            Book b = new BookDAO().getBookById(bookId);
-            
-            if (b != null) {
-                if (session.getAttribute("cart") != null) {
-                    cartObj = (Cart)session.getAttribute("cart");                                                
-                } else {
-                    cartObj = new Cart();                    
-                }
-                cartObj.addToCart(b);
-                session.setAttribute("cart", cartObj);
-                response.sendRedirect("cart.jsp");
+            if (session.getAttribute("cart") != null) {
+                cartObj = (Cart) session.getAttribute("cart");
             } else {
-                response.sendRedirect("index.jsp");
+                cartObj = new Cart();
             }
             
+            switch (action) {
+                case "add":
+                    int bookId = Integer.parseInt(request.getParameter("id"));
+                    Book b = new BookDAO().getBookById(bookId);
+
+                    if (b != null) {
+                        cartObj.addToCart(b);
+                        session.setAttribute("cart", cartObj);
+                        response.sendRedirect("cart.jsp");
+                    } else {
+                        response.sendRedirect("index.jsp");
+                    }
+                    break;
+
+                case "update":
+                    System.out.println("case update");
+                    cartObj = (Cart) session.getAttribute("cart");
+                    System.out.println(cartObj);
+                    HashMap<Integer, Integer> listBook = cartObj.getListBook();
+                    Iterator it = listBook.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        Book book = new BookDAO().getBookById((Integer) pair.getKey());
+                        cartObj.changeQuantity(book, Integer.parseInt(request.getParameter("qtt" + book.getBookId())));
+                    }
+                    response.sendRedirect(request.getContextPath() + "/cart.jsp");
+                    break;
+
+                case "delete":
+//                    System.out.println(cartObj.toString());
+                    if (cartObj != null) {
+                        System.out.println("case delete != null");
+                        CartDecoratorConcreate cartDecorator = new CartDecoratorConcreate(cartObj);
+                        cartDecorator.deleteAll();
+                        response.sendRedirect(request.getContextPath() + "/cart.jsp");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/index.jsp");
+                    }
+                    break;
+                default:
+                    response.sendRedirect("index.jsp");
+            }
+
         } catch (SQLException ex) {
-            Logger.getLogger(AddToCart.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CartController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

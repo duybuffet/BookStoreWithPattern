@@ -13,10 +13,10 @@
 <%@page import="model.business.ICart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    Cart cart = null;
+    ICart cart = null;
     HashMap<Integer, Integer> listBookId = null;
     if (session.getAttribute("cart") != null) {
-        cart = (Cart)session.getAttribute("cart");
+        cart = (ICart)session.getAttribute("cart");
         listBookId = cart.getListBook();
     } else {
         response.sendRedirect("index.jsp");
@@ -33,7 +33,7 @@
                 <div class="left_content" style="text-align: center">
                     <div class="row">
                         <div class="col-md-11">               
-                        <form method="post" action="UpdateCart">
+                        <form method="post" action="CartController?action=update">
                             <table class="table">
                                 <tr>
                                     <td>Tên sách</td>
@@ -56,7 +56,7 @@
                                     <td><%=book.getTitle().getName()%></td>
                                     <td><%=book.getAuthor().getAuthorName()%></td>
                                     <td><%=book.getPrice()%></td>
-                                    <td><input type="number" value="<%=qtt%>" style="width: 40px; margin-top: -5px; margin-bottom: -5px;"></td>
+                                    <td><input name="qtt<%=book.getBookId()%>" type="number" value="<%=qtt%>" style="width: 40px; margin-top: -5px; margin-bottom: -5px;"></td>
                                     <td><%=book.getPrice() * qtt%></td>
                                 </tr>
                                 <%
@@ -69,10 +69,10 @@
                                 </tr>
                             </table>
                             <div class="col-md-8">
-                                <button class="btn btn-success" type="submit"> Thanh toán </button>
+                                <a href="<%=request.getContextPath()%>/checkout.jsp"><button class="btn btn-success" type="submit"> Thanh toán </button></a>
                                 <button class="btn btn-primary" type="submit"> Cập nhật </button>
-                                <button class="btn btn-danger" type="submit"> Xóa giỏ hàng </button>
-                                <a href="<%=request.getContextPath()%>/index.jsp"><button class="btn btn-info" type="submit"> Mua tiếp </button></a>
+                                <a href="<%=request.getContextPath()%>/CartController?action=delete"><button class="btn btn-danger" type="button"> Xóa giỏ hàng </button></a>
+                                <a href="<%=request.getContextPath()%>/index.jsp"><button class="btn btn-info" type="button"> Mua tiếp </button></a>
                             </div>
                             <div class="clear"></div>
                         </form>     

@@ -35,7 +35,7 @@
                                 <p>Thể loại: <%=book.getCategory().getName()%></p>
                                 <p>Giá: <%=book.getPrice()%></p>
                                 <p>
-                                    <a href="<%=request.getContextPath()%>/AddToCart?id=<%=book.getBookId()%>">
+                                    <a href="<%=request.getContextPath()%>/CartController?action=add&id=<%=book.getBookId()%>">
                                         <button class="btn btn-warning">Cho vào giỏ</button>
                                     </a>
                                 </p>
