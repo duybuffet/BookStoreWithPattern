@@ -15,7 +15,7 @@
 <%
     ICart cart = null;
     HashMap<Integer, Integer> listBookId = null;
-    if (session.getAttribute("cart") != null) {
+    if (session.getAttribute("cart") != null && !session.getAttribute("cart").equals("")) {
         cart = (ICart)session.getAttribute("cart");
         listBookId = cart.getListBook();
     } else {
@@ -69,7 +69,7 @@
                                 </tr>
                             </table>
                             <div class="col-md-8">
-                                <a href="<%=request.getContextPath()%>/checkout.jsp"><button class="btn btn-success" type="submit"> Thanh toán </button></a>
+                                <a href="<%=request.getContextPath()%>/checkout.jsp"><button class="btn btn-success" type="button"> Thanh toán </button></a>
                                 <button class="btn btn-primary" type="submit"> Cập nhật </button>
                                 <a href="<%=request.getContextPath()%>/CartController?action=delete"><button class="btn btn-danger" type="button"> Xóa giỏ hàng </button></a>
                                 <a href="<%=request.getContextPath()%>/index.jsp"><button class="btn btn-info" type="button"> Mua tiếp </button></a>

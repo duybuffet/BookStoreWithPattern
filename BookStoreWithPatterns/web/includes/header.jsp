@@ -26,7 +26,7 @@
 <div id="user_info">
     <p>Xin chào Thành viên</p>
     <p><%=u.getNameSurname().getFirstName()%> <%=u.getNameSurname().getMidName()%> <%=u.getNameSurname().getLastName()%> </p>
-    <p><a href="<%=request.getContextPath()%>/cart/viewBookCart.jsp"><img src="<%=request.getContextPath()%>/images/cart.gif" /> Giỏ hàng</a></p>
+    <p><a href="<%=request.getContextPath()%>/cart.jsp"><img src="<%=request.getContextPath()%>/images/cart.gif" /> Giỏ hàng</a></p>
     <p><a href="<%=request.getContextPath()%>/cart/view.jsp">Ebook đã mua</a>
     <% if(u.getPermission() > 1){
             %>
