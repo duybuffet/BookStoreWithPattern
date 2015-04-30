@@ -5,7 +5,8 @@
  */
 package control.business;
 
-import dao.business.OrderDAO;
+import dao.DAOFactory;
+import dao.business.mysql.MysqlOrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -30,8 +31,9 @@ import model.user.User;
 public class OrderController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP
+     * <code>GET</code> and
+     * <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -66,7 +68,9 @@ public class OrderController extends HttpServlet {
                     order.setNote(request.getParameter("note"));
                     order.setUser(user);
 
-                    new OrderDAO().addOrder(order);
+//                    DAOFactory objDAO = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+                    DAOFactory objDAO = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+                    objDAO.getOrderDAO().addOrder(order);
                     out.print("<script>alert('Đặt hàng thành công! Chúng tôi sẽ sớm liên lạc lại với bạn.');</script>");
                     response.sendRedirect(request.getContextPath() + "/index.jsp");
                     break;
@@ -80,7 +84,8 @@ public class OrderController extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP
+     * <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -94,7 +99,8 @@ public class OrderController extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP
+     * <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -116,5 +122,4 @@ public class OrderController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

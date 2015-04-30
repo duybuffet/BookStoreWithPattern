@@ -1,6 +1,6 @@
 package dao.book;
 
-import common.utility.DbConnect;
+import common.utility.MysqlDbConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class TitleDAO {
     public ArrayList<Title> getAllTitle() throws SQLException {
         String query = "SELECT * FROM tbltitle";
         ArrayList<Title> arrTitle = new ArrayList();
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -36,7 +36,7 @@ public class TitleDAO {
     public Title getTitleByName(String name) throws SQLException {
         Title title = null;
         String sql = "SELECT * FROM tbltitle WHERE title_name = '" + name + "'";
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -50,7 +50,7 @@ public class TitleDAO {
     public Title getTitle(int id) throws SQLException {
         Title title = null;
         String sql = "SELECT * FROM tbltitle WHERE id = ?";
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {

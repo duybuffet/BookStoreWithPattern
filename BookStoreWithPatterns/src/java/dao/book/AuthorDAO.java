@@ -1,6 +1,6 @@
 package dao.book;
 
-import common.utility.DbConnect;
+import common.utility.MysqlDbConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class AuthorDAO {
     public ArrayList<Author> getAllAuthor() throws SQLException {
         String query = "SELECT * FROM tblauthor";
         ArrayList<Author> arrAuthor = new ArrayList();
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -39,7 +39,7 @@ public class AuthorDAO {
         Author author = null;
         String sql = "SELECT * FROM tblauthor WHERE author_name = '" + name + "'";
 
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -56,7 +56,7 @@ public class AuthorDAO {
         Author author = null;
         String sql = "SELECT * FROM tblauthor WHERE id = ?";
 
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -73,7 +73,7 @@ public class AuthorDAO {
     public void addAuthor(Author author) throws SQLException {
         String query = "INSERT INTO tblauthor(author_name, gender, description) VALUES(?, ?, ?)";
 
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ps.setString(1, author.getAuthorName());
         ps.setString(2, author.getGender());
         ps.setString(3, author.getDescription());
@@ -83,7 +83,7 @@ public class AuthorDAO {
 
     public void editAuthor(Author author) throws SQLException {
         String query = "UPDATE tblauthor SET author_name = ?, gender = ?, description = ? WHERE id = " + author.getId();
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ps.setString(1, author.getAuthorName());
         ps.setString(2, author.getGender());
         ps.setString(3, author.getDescription());

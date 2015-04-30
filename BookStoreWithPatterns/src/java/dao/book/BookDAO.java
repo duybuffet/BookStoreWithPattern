@@ -1,6 +1,6 @@
 package dao.book;
 
-import common.utility.DbConnect;
+import common.utility.MysqlDbConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +28,7 @@ public class BookDAO {
         ResultSet set = null;
         PreparedStatement ps = null;
         Book book = null;
-        ps = DbConnect.getConnection().prepareStatement(query);
+        ps = MysqlDbConnect.getConnection().prepareStatement(query);
         set = ps.executeQuery();
         if (set.next()) {
             book = new Book(
@@ -56,7 +56,7 @@ public class BookDAO {
         ResultSet set = null;
         PreparedStatement ps = null;
         ArrayList<Book> arrBook = new ArrayList();
-        ps = DbConnect.getConnection().prepareStatement(query);
+        ps = MysqlDbConnect.getConnection().prepareStatement(query);
         set = ps.executeQuery();
         while (set.next()) {
             arrBook.add(new Book(
@@ -82,7 +82,7 @@ public class BookDAO {
         Publisher publisher = book.getPublisher();
 
         String sqlInsertTitle = "INSERT INTO tbltitle(name, description) VALUES(?, ?)";
-        PreparedStatement psInsertTitle = DbConnect.getConnection().prepareStatement(sqlInsertTitle, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement psInsertTitle = MysqlDbConnect.getConnection().prepareStatement(sqlInsertTitle, Statement.RETURN_GENERATED_KEYS);
         psInsertTitle.setString(1, title.getName());
         psInsertTitle.setString(2, title.getDescription());
         psInsertTitle.executeUpdate();
@@ -96,7 +96,7 @@ public class BookDAO {
         String sql = "INSERT INTO tblbook(display_price, published_date, description, stock_qtt, image_url, title_id, category_id, author_id, publisher_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = null;
-        ps = DbConnect.getConnection().prepareStatement(sql);
+        ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ps.setFloat(1, book.getPrice());
         ps.setString(2, book.getPublishedDate());
         ps.setString(3, book.getDescription());

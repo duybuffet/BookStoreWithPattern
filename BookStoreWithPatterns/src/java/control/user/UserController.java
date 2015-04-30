@@ -5,7 +5,8 @@
  */
 package control.user;
 
-import dao.user.UserDAO;
+import dao.DAOFactory;
+import dao.user.mysql.MySqlUserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -45,14 +46,15 @@ public class UserController extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             String action = request.getParameter("action").trim();
             HttpSession session = request.getSession(true);
-
+            DAOFactory objDAO = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+            
+            
             switch (action) {
                 case "login":
-                    UserDAO dao = new UserDAO();
                     String username = (String) request.getParameter("username");
                     String password = (String) request.getParameter("password");
-                    User u = dao.login(username, password);
-
+//                    User u = dao.login(username, password);
+                    User u = objDAO.getUserDAO().login(username, password);
                     session.setAttribute("user", u);
                     response.sendRedirect("index.jsp");
                     break;
@@ -81,8 +83,9 @@ public class UserController extends HttpServlet {
                     Address add = new Address(house_no, town, district, city);
                     NameSurname name_surname = new NameSurname(firstname, midname, lastname);
                     User user = new User(uname, pass, email, dob, gender, add, name_surname);
-                    UserDAO userDao = new UserDAO();
-                    userDao.addUser(user);
+//                    MySqlUserDAO userDao = new MySqlUserDAO();
+//                    userDao.addUser(user);
+                    objDAO.getUserDAO().addUser(user);
                     response.sendRedirect("index.jsp");
                     break;
                 default:

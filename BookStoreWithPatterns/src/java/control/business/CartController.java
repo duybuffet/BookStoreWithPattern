@@ -89,6 +89,7 @@ public class CartController extends HttpServlet {
                         System.out.println("case delete != null");
                         CartDecoratorConcreate cartDecorator = new CartDecoratorConcreate(cartObj);
                         cartDecorator.deleteAll();
+//                        cartDecorator.get
                         response.sendRedirect(request.getContextPath() + "/cart.jsp");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/index.jsp");

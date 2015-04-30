@@ -1,6 +1,6 @@
 package dao.book;
 
-import common.utility.DbConnect;
+import common.utility.MysqlDbConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class PublisherDAO {
     public ArrayList<Publisher> getAllPublisher() throws SQLException {
         String query = "SELECT * FROM tblpublisher";
         ArrayList<Publisher> arrPublisher = new ArrayList();
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -38,7 +38,7 @@ public class PublisherDAO {
     public Publisher getPublisherByName(String name) throws SQLException {
         Publisher publisher = null;
         String sql = "SELECT * from tblpublisher WHERE publisher_name = '" + name + "'";
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -55,7 +55,7 @@ public class PublisherDAO {
     public Publisher getPublisherById(int id) throws SQLException {
         Publisher publisher = null;
         String sql = "SELECT * FROM tblpublisher WHERE id = ?";
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -73,7 +73,7 @@ public class PublisherDAO {
 
     public void addPublisher(Publisher publisher) throws SQLException {
         String query = "insert into tblpublisher(publisher_name, address, description) values(?, ?, ?)";
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ps.setString(1, publisher.getName());
         ps.setString(2, publisher.getAddress());
         ps.setString(3, publisher.getDescription());
@@ -83,7 +83,7 @@ public class PublisherDAO {
 
     public void editPublisher(Publisher publisher) throws SQLException {
         String query = "UPDATE tblpublisher SET publisher_name = ?, address = ?, description = ? WHERE id = " + publisher.getId();
-        PreparedStatement ps = DbConnect.getConnection().prepareStatement(query);
+        PreparedStatement ps = MysqlDbConnect.getConnection().prepareStatement(query);
         ps.setString(1, publisher.getName());
         ps.setString(2, publisher.getAddress());
         ps.setString(3, publisher.getDescription());
